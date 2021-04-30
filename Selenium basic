@@ -1,0 +1,1739 @@
+Selenium Checklist 
+
+
+1.	Selenium Introduction 
+2.	Selenium WebDriver Setup 
+3.	Launching Browsers 
+4.	Finding Web Elements (Locators) 
+5.	Selenium Basic Commands 
+6.	Waits in Selenium 
+7.	CSS Locators 
+8.	XPath Locators (Static and Dynamic) 
+9.	Handling Dropdowns 
+10.	Right click 
+11.	Double Click 
+12.	Mouse Hover actions 
+13.	Drag and Drop 
+14.	Handling Alerts
+15.	Scrolling a Webpage
+16.	Refresh a webpage 
+17.	Window Handling 
+18.	Navigations (Back-Forward) 
+19.	Keyboard Interactions 
+20.	Mouse Interactions 
+21.	Exceptions 
+22.	Assertion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Automation Testing using Selenium
+
+1.	What is Selenium?
+Selenium is a free and open-source test automation suite used for automating web-based applications. It supports automation across different browsers, platforms, and programming languages.
+
+Using Selenium, we can automate the functional tests and easily integrate them with Maven, Jenkins, and other build automation and continuous integration tools.
+Components of Selenium Suite
+Selenium Suite comprises of the following four components-
+1.	Selenium IDE – Selenium IDE is a record and playback automation tool using which we can automate the web applications. It comes in the form of a Chrome and Firefox browser extension.
+Since it works on the record and playback principle, so it is the first choice automation tool for people with no or limited programming language experience.
+2.	Selenium RC – Selenium Remote Control(RC) is officially deprecated by Selenium. It used to inject the javascript code in the browser for automation and required an additional server for running the automation scripts. Apart from this, it had many limitations like – it was slow, it didn’t had a headless browser like HtmlUnitDriver and before executing the test scripts the server was required to be started.
+3.	Selenium WebDriver – By far the most important component of Selenium Suite. It provides different drivers for different browsers and supports multiple programming languages.
+It is purely object-oriented and supports all the major browsers – Chrome, Firefox, IE, Safari, etc and scripting can be done in most of the popular languages – Java, Python, Ruby, etc.
+4.	Selenium Grid – Selenium Grid is also an important part of the Selenium Suite. It helps in the distributed running of Selenium tests in parallel across multiple remote machines.
+It has a hub and multiple nodes. The nodes run the Selenium instances on which the test cases are executed. These nodes are connected to a central hub which acts as a server and controls the whole test execution.
+Advantages of Selenium
+Let’s now see some of the advantages of Selenium-
+1.	Selenium is open source, there is no licensing cost for its usage.
+2.	Scripting can be done in most of the widely used programming languages like Java, C#, Ruby, and Python.
+3.	It provides platform support for all the major operating systems – Windows, Linux, Mac OS, and Solaris.
+4.	It supports most of the popular browsers like Chrome, Firefox, Edge, Internet Explorer, Opera, and Safari.
+5.	The Selenium IDE component of the Selenium suite provides record and playback features using which non-programmers can also write automation scripts.
+6.	Selenium Grid helps in parallel and distributed testing.
+Limitations of Selenium
+Some of the limitations of Selenium are-
+1.	Selenium does not provide desktop application automation support.
+2.	Web Services – REST or SOAP cannot be automated using Selenium.
+3.	Selenium WebDriver requires programming language requirements for script creation.
+4.	For performing common tasks required in automation like logging, reading-writing to external files, we have to rely on external libraries.
+Let’s check the Selenium WebDriver component in a little more detail now.
+What is Selenium WebDriver?
+Selenium Webdriver is one of the most widely used tools for automating web applications. It automates the browsers by calling their native method directly unlike Selenium RC which injects javascript in browsers for automation. Hence, Webdriver is much faster than Selenium RC.
+Apart from this, Selenium WebDriver can also handle scenarios like alerts, pop-ups, ajax requests, keyboard, and mouse actions easily. Since Webdriver directly calls the methods of different browsers hence we have a separate driver for each browser
+2.	Selenium WebDriver Setup
+Sample Script
+package basicSelenium;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+public class LaunchingBrowser {
+	public static void main(String[] args) 
+	{
+		WebDriver driver;	//Creating Driver Object
+		//Setting the EdgeDriver property
+System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\ edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+		driver.get("https://opensource-demo.orangehrmlive.com/index.php/dashboard");	
+//Using get method to open the webpage
+		driver.quit();	//Closing the browser
+	} 
+}
+3.	Launching Browser
+Sample Script
+package basicSelenium;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+public class WebDriverSetup 
+{
+	public static void main(String[] args) 
+{
+		WebDriver driver;	//Creating Driver Object
+		//Setting the EdgeDriver property
+System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\ edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating a instance of edge driver and launching the edge browser
+		driver.get("https://opensource-demo.orangehrmlive.com/index.php/dashboard");			//Using get method to open the webpage
+		driver.close();	//Closing the browser
+	} 
+}
+4.	Finding WebElements
+Before starting the concept there is an important note you must create and follow it in eclipse
+Important note: - There is variables like username and password are used in most of the sample scripts those are taken from an interface and created in project.
+Interface code
+public interface Credentials 
+{
+	String username="Admin";
+	String password="Qedge123!@#";
+}
+Locators in Selenium: - There are 8 Locators in selenium webDriver.
+1.	By Id – Locates element using id attribute of the web element.
+
+	Syntax: - WebElement element = driver.findElement(By.id("elementId"));
+	Sample Script: -
+package webElementsLocators;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+public class ID implements Credentials
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver;	//Creating Driver Object
+		//Setting the EdgeDriver property
+								System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\/   edgedriver_win64\\msedgedriver.exe");
+		driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+										driver.get("https://opensourcedemo.orangehrmlive.com/index.php/dashboard”);
+//Using get method to open the webpage
+		driver.findElement(By.id("txtUsername")).sendKeys(username);   //Locating webElement "ID"
+		driver.findElement(By.id("txtPassword")).sendKeys(password,Keys.ENTER);
+		driver.quit();	//Closing the browser
+	}
+}
+2.	By className – Locates the web element using className attribute.
+
+	Syntax: - WebElement element = driver.findElement(By.className("objectClass"));
+	Sample Script: -
+package webElementsLocators;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+public class ClassName 
+{
+	public static void main (String [] args){	
+		WebDriver driver;	//Creating Driver Object
+		//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+		driver=new EdgeDriver();	//Creating a instance of edge driver and launching the edge browser
+	driver.get("https://opensourcedemo.orangehrmlive.com/index.php/dashboard");	//Using get method to open the webpage
+		String text=driver.findElement(By.className("form-hint")).getText();	//Locating webElement "name"
+		System.out.println(text);
+		driver.quit();	//Closing the browser
+	}
+}
+3.	By tagName – Locates the web element using its HTML tag like div, a, input etc.
+
+	Syntax: - WebElement element = driver.findElement(By.tagName("a"));
+	Sample Script: -
+package webElementsLocators;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+public class TagName implements Credentials
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver;	//Creating Driver Object
+		//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+		driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("https://opensourcedemo.orangehrmlive.com/index.php/dashboard");
+		//Using get method to open the webpage
+		String text=driver.findElement(By.tagName("span")).getText();	
+			//Locating webElement "tagName"
+		System.out.println(text);
+		driver.quit();	//Closing the browser
+	}
+}
+4.	By name – Locates the web element using name attribute.
+
+	Syntax: - WebElement element = driver.findElement(By.name("male"));
+	Sample Script: -
+package webElementsLocators;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+public class Name implements Credentials
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver;	//Creating Driver Object
+		//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+		driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("https://opensourcedemo.orangehrmlive.com/index.php/dashboard");
+		//Using get method to open the webpage
+		driver.findElement(By.name("txtUsername")).sendKeys(username);			//Locating webElement "name"
+	driver.findElement(By.name("txtPassword")).sendKeys(password,Keys.ENTER);
+		driver.quit();	//Closing the browser
+	}
+}
+5.	By linkText – Locates the web element of link type using their text.
+
+	Syntax: - WebElement element = driver.findElement(By.linkText("Click Here"));
+	Sample Script: -
+package webElementsLocators;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+public class LinkText 
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver;	//Creating Driver Object
+		//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+		driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("https://opensourcedemo.orangehrmlive.com/index.php/dashboard");
+			//Using get method to open the webpage
+	String text=driver.findElement(By.linkText("Forgot your password?")).getText();	
+			//Locating webElement "LinkText"
+		System.out.println(text);
+		driver.quit();	//Closing the browser
+	}
+}
+6.	By partialLinkText – Locates the web element of link type with partial matching of text.
+
+	Syntax: - WebElement element = driver.findElement(By.partialLinkText("Click"));
+	Sample Script: -0
+package webElementsLocators;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+public class PartialLinkText 
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver;	//Creating Driver Object
+		//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+		driver=new EdgeDriver();		//Creating an instance of edge driver and launching the edge browser
+	driver.get("https://opensourcedemo.orangehrmlive.com/index.php/dashboard");
+						//Using get method to open the webpage
+	String text=driver.findElement(By.partialLinkText("Forgot")).getText();	
+					            //Locating webElement "PartialLinkText"
+		System.out.println(text);
+		driver.quit();	/		/Closing the browser
+	}
+}
+7.	By cssSelector – Locates the web element using css its CSS Selector patterns.
+
+	Syntax: - WebElement element = driver.findElement(By.cssSelector("div#id"));
+	Sample Script: -
+package webElementsLocators;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+public class CssSelector
+{
+	public static void main (String [] args)
+{	
+		WebDriver driver;	//Creating Driver Object
+		//Setting the EdgeDriver property
+									System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+		driver=new EdgeDriver();		//Creating an instance of edge driver and launching the edge browser
+	driver.get("https://opensourcedemo.orangehrmlive.com/index.php/dashboard");							//Using get method to open the webpage 
+String text=driver.findElement(By.cssSelector("body:nth-child(2)div:nth-child(1)div:nth-child(1) div:nth-child(3) > span:nth-child(1)")).getText();	
+						//Locating webElement "CssSelector"
+		System.out.println(text);
+		driver.quit();	/		/Closing the browser
+	}
+}
+8.	By xpath – Locates the web element using its XPaths.
+
+	Syntax: - WebElement element = driver.findElement(By.xpath("//div[@id='id']"));
+	Sample Script: -
+package webElementsLocators;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+public class Xpath 
+{
+	public static void main (String [] args)
+{	
+		WebDriver driver;	//Creating Driver Object
+		//Setting the EdgeDriver property
+System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+		driver.get("https://opensource-demo.orangehrmlive.com/index.php/dashboard");								//Using get method to open the webpage
+String text=driver.findElement(By.xpath("//span[contains(text(),'( Username : Admin | Password : admin123 )')]")).getText();	
+//Locating webElement "CssSelector"
+		System.out.println(text);
+		driver.quit();	//Closing the browser
+	}
+}
+5.	Selenium Basic Commands
+We are going to write a basic selenium by using navigate(), click(), sendKeys(), clear() methods.
+Using navigate() method
+The driver.navigate().to() method does the task of opening a web page like driver.get() method. 
+Syntax: - driver.navigate().to("https://artoftesting.com");
+Using click() method
+The click() method in Selenium is used to perform the click operation on web elements. we studied about locating the webElements in Selenium. The click() method is applied on the webElements identified, to perform the click operation.
+Syntax: - driver.findElement(By.id("button1")).click();
+Using sendKeys() method
+The sendKeys() method can be used for writing in a textbox or any element of text input type.
+Syntax: - driver.findElement(By.name("q")).sendKeys("ArtOfTesting!");
+Using clear() method
+The clear() method can be used to clear the text written in a textbox or any web element of text input type.
+Syntax: - driver.findElement(By.name("q")).clear();
+Fetching text written over any web element
+In automation, many times we need to fetch the text written over a web element for performing some assertions or debugging. For this, we have getText() method in selenium webDriver.
+Syntax: - driver.findElement(By.id("element123")).getText();
+
+Navigating backward in a Browser
+Selenium provides navigate().back() command to move backward in the browser’s history.
+Syntax: - driver.navigate().back();
+Navigating forward in a Browser
+Selenium provides navigate().forward() command to move forward in a browser.
+Syntax: - driver.navigate().forward();
+Refreshing the Browser
+There are multiple ways to refresh a page in Selenium WebDriver-
+•	Using driver.navigate().refresh() command
+•	Using sendKeys(Keys.F5) on any textbox on the webpage
+•	Using driver.get(“URL”) with current URL
+•	Using driver.navigate().to(“URL”) with current URL
+
+Syntaxes: - driver.navigate().refresh();
+	    driver.findElement(By.id("id123")).sendKeys(Keys.F5);
+	    driver.get("https://artoftesting.com");
+	    driver.navigate().to("https://artoftesting.com");
+Closing the Browser
+Selenium provides two commands to close browsers close() and quit(). The driver.close() command is used to close the browser having focus. Whereas, the driver.quite() command is used to close all the browser instances open.
+Syntaxes: - driver.close();
+	    driver.quit();
+
+Sample Script
+package basicSelenium;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class BasicCommands implements Credentials
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver;	//Creating Driver Object
+		//Setting the EdgeDriver property
+														System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating a instance of edge driver and launching the edge browser
+														driver.navigate().to("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");	
+//Using navigate () and to () methods to open the webpage
+		
+driver.findElement(By.id("txtUsername")).sendKeys(username);   
+
+//Locating webElement "ID"
+		
+driver.findElement(By.id("txtPassword")).sendKeys(password);
+			
+driver.findElement(By.name("Submit")).click();	
+
+//Using click() method to login to the webpage. 
+		
+driver.navigate().back();	
+
+//Using navigate() and back() methods to get back the login webpage. 
+		
+Thread.sleep(3000);
+		
+driver.findElement(By.id("txtUsername")).clear();	
+
+//Using clear() method to delete or clear the data in username text box.
+		
+Thread.sleep(3000);
+	
+		driver.quit();				//Closing the browser
+	}
+}
+
+6.	Waits in Selenium
+
+Why are waits required in selenium?
+
+In UI automation, waits are required because certain elements get loaded on the page asynchronously, so after triggering an event a page may get loaded successfully but some of its elements may still not get loaded.
+
+This causes elementNotFound exception while locating the element. In such cases, we are left with using Thread.sleep() i.e. a static wait that will halt the test execution for some specified time and then perform the next step.
+
+As Thread.sleep() will wait for the specified time no matter if the elements get visible before that time. So, using Thread.sleep() is never advisable in UI automation.
+
+To avoid this Selenium provides different types of waits, out of which Implicit and Explicit waits are most commonly used.
+
+Implicit Waits
+
+An implicit wait when used is set to the WebDriver instance and is applied to all the web elements. In implicit wait the webdriver polls the DOM to check the availability of the webElement and waits till the maximum time specified before throwing NoSuchElementException.
+Syntax: -
+WebDriver driver = new FirefoxDriver();
+driver.manage(). timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+In the above code snippet, the value 20 specified in the implicit wait method is the maximum time in seconds till which WebDriver will wait before throwing NoSuchElementException while locating a WebElement.
+
+Sample Script on Implicit waits
+package waits;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import basicSelenium.Credentials;
+public class ImplicitlyWaits implements Credentials
+{
+	public static void main(String[] args)  
+	{
+		WebDriver driver;	//Creating Driver Object
+		//Setting the EdgeDriver property
+		System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+		driver=new EdgeDriver();	
+//Creating an instance of edge driver and launching the edge browser
+	driver.navigate().to("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");	
+//Using navigate() and to() methods to open the webpage
+		driver.findElement(By.id("txtUsername")).sendKeys(username);   
+//Locating webElement "ID"
+		driver.findElement(By.id("txtPassword")).sendKeys(password);
+		driver.findElement(By.name("Submit")).click();	
+//Using click() method to login to the webpage. 
+		driver.navigate().back();	
+//Using navigate() and back() methods to get back the login webpage. 
+		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);	
+//Using timesout(),implicitilyWait() methods to wait the webpage for 3 seconds
+		driver.findElement(By.id("txtUsername")).clear();	
+//Using clear() method to delete or clear the data in username text box.
+		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+		driver.quit();				//Closing the browser
+	}
+}
+Explicit Waits
+Unlike implicit waits, the explicit waits are applied to each and every web element. In explicit wait, certain conditions are defined for which the WebDriver instance waits before locating web elements or performing actions on them. Some of the most common conditions specified in explicit waits are- elementToBeClickable, presenceOfElementLocated etc.
+Syntax: -
+WebDriverWait wait = new WebDriverWait(driver, 15);
+wait.until(ExpectedConditions.presenceOfElementLocated(ElementLocator));
+
+Here the WebDriver instance will wait until the condition specified is met i.e. the presence of Element located by the ElementLocator with the maximum wait time of 15 seconds after which if the condition is still not met then it will throw an exception.
+
+Sample Script on Explicit Waits
+
+package waits;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import basicSelenium.Credentials;
+
+public class ExplicitilyWaits implements Credentials
+{
+	public static void main(String[] args)  
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+		System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+		
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+		
+WebDriverWait wait=new WebDriverWait(driver, 10);	
+
+//Creating an instance for WebDriverWait
+		
+String expectedTitle="OrangeHRM";
+		
+String actualTitle="";
+								driver.navigate().to("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");	
+//Using navigate() and to() methods to open the webpage
+		
+actualTitle=driver.getTitle();
+		
+if(actualTitle.equals(expectedTitle))
+		{
+			System.out.println("Test Passed");
+		}
+		else
+		{
+			System.out.println("Test Failed");
+		}
+	
+WebElement login =  wait.until(ExpectedConditions.presenceOfElementLocated(By.id("txtUsername")));	
+		
+login.sendKeys(username);
+	}
+}
+
+
+7.	CSS and CSS Selectors Introduction
+
+CSS stands for Cascading Style Sheets, these are used for styling the different elements of an HTML webpage. In the .css files we can locate specific elements of a webpage(.html files) and then style them like – set their font size, width, height etc.
+For locating the web elements to be styled, we use certain rules provided as CSS Selectors.
+For example, the following statement first locates a web element satisfying the selector pattern – “div#searchBox” and then aligns the text inside it to center.
+div#searchBox {text-align: center;}
+In Selenium, we can use these CSS Selector rules/patterns for locating web elements and later perform different operations on them. For example-
+//Locating searchBox element using CSS Selector
+WebElement searchBox = driver.findElement(By.cssSelector("div#searchBox"));
+//Performing click operation on the element
+searchBox.sendKeys("ArtOfTesting");
+Let’s now see the different rules of CSS Selectors along with their syntax and usage example.
+
+
+CSS Selectors
+
+Below are the syntax and examples on how to locate the desired elements and use them in selenium scripts.
+Using Id
+CSS Selector Rule – #id
+Example – For the Sample HTML below-
+<button id="submitButton1" type="button" class="btn">Submit</button>
+CSS Locator – #submitButton1
+Description – ‘#submitButton1’ will select the element with id ‘submitButton1’.
+Sample Script
+package cssLocators;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import basicSelenium.Credentials;
+public class Id implements Credentials
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+		driver=new EdgeDriver();	
+//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");
+//Using get method to open the webpage
+driver.findElement(By.cssSelector("#txtUsername")).sendKeys(username);   
+//Writing a dynamic CSS locator using "ID Element
+	driver.findElement(By.cssSelector("#txtPassword")).sendKeys(password,Keys.ENTER);
+		driver.quit();	/			/Closing the browser
+	}
+}
+Using class
+
+CSS Selector Rule – .class
+
+Example – For the Sample HTML below-
+
+<button id="submitButton1" type="button" class="btn">Submit</button>
+CSS Locator – .btn
+Description – ‘.btn’ will select all the elements with class ‘btn’.
+Sample Script
+package cssLocators;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+public class Class
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+		System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+		driver=new EdgeDriver();	
+//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");
+//Using get method to open the webpage
+		String text=driver.findElement(By.cssSelector(".form-hint")).getText();	
+//Writing a dynamic CSS locator using Class Element
+		System.out.println(text);
+		driver.quit();	//Closing the browser
+	}
+}
+
+
+
+Using tag
+
+CSS Selector Rule – tagName
+
+Example – For the Sample HTML below-
+
+<input id="fname" type="text" name="firstName" class="textbox">
+CSS Locator – input
+Description – ‘input’ will select all the input type elements.
+Sample Script
+package cssLocators;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+public class Tag 
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+		System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+		driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");							//Using get method to open the webpage
+		String text=driver.findElement(By.cssSelector("span")).getText();
+							//Writing a dynamic CSS locator using Tags
+		System.out.println(text);
+		driver.quit();				//Closing the browser
+	}
+}
+Using attributes and their value
+CSS Selector Rule - [attributeName='attributeValue']
+Example -
+For the Sample HTML below-
+<input id="fname" type="text" name="firstName" class="textbox">
+CSS Locator – [name=’firstName’]
+Description – [name=’firstName’] will select the elements with name attribute having value ‘firstName’.
+Sample Script
+package cssLocators;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import basicSelenium.Credentials;
+
+public class Attributes implements Credentials
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");							//Using get method to open the webpage
+driver.findElement(By.cssSelector("[id='txtUsername']")).sendKeys(username);   
+//Writing a dynamic CSS locator using attributes
+	driver.findElement(By.cssSelector("[id='txtPassword']")).sendKeys(password,Keys.ENTER);
+		driver.quit();			//Closing the browser
+	}
+}
+Now, using these basic rules of locating web elements, we can use them in conjunction to create more robust locators, selecting unique elements.
+Using tags and Id
+
+CSS Selector Rule – tag#id
+
+Example – For the Sample HTML below-
+
+<input id="fname" type="text" name="firstName" class="textbox">
+CSS Locator – input#fname
+Description – input#fname will select the ‘input’ element with id ‘fname’.
+Sample Script
+
+package cssLocators;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import basicSelenium.Credentials;
+public class TagAndID implements Credentials
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");							//Using get method to open the webpage
+		driver.findElement(By.cssSelector("input#txtUsername")).sendKeys(username);   
+//Writing a dynamic CSS locator using tag and ID element
+	driver.findElement(By.cssSelector("input#txtPassword")).sendKeys(password,Keys.ENTER);
+		driver.quit();				//Closing the browser
+	}
+}
+
+Using tags and class
+
+CSS Selector Rule – tag.class
+
+Example – For the Sample HTML below-
+
+<input id="fname" type="text" name="firstName" class="textbox">
+CSS Locator – input.textbox
+Description – input.textbox will select the ‘input’ element with id ‘textbox’.
+Sample Script
+package cssLocators;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+public class TagAndClass 
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");							//Using get method to open the webpage
+		String text=driver.findElement(By.cssSelector("span.form-hint")).getText();	
+//Writing a dynamic CSS locator using tag and class element
+		System.out.println(text);
+		driver.quit();				//Closing the browser
+	}
+}
+Using tags and attributes
+
+CSS Selector Rule – tag[attributeName=’attributeValue’]
+
+Example – For the Sample HTML below-
+
+<input id="fname" type="text" name="firstName" class="textbox">
+CSS Locator – input[name=’firstName’]
+Description – input[name=’firstName’] will select the ‘input’ element with ‘name’ attribute having value ‘firstName’.
+Sample Script
+package cssLocators;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import basicSelenium.Credentials;
+public class TagAndAttributes implements Credentials
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating a instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");						//Using get method to open the webpage
+	driver.findElement(By.cssSelector("input[id='txtUsername']")).sendKeys(username);   
+//Writing a dynamic CSS locator using tag and attributes 
+	driver.findElement(By.cssSelector("input[id='txtPassword']")).sendKeys(password,Keys.ENTER);
+		driver.quit();			//Closing the browser
+	}
+}
+
+
+
+8.	xPath Locators
+In this xPath tutorial, we are going to study the usage of XPath locator in Selenium WebDriver and other automated tools. we studied different types of locators used in Selenium WebDriver.
+Here, we will be studying how to create Xpath locators, the different types of Xpaths and the ways of finding dynamic elements using XPath.
+What is an xPath?
+An XPath can be defined as a query language used for navigating through the XML documents in order to locate different elements. The basic syntax of an XPath expression is-
+//tag[@attributeName='attributeValues']
+Now, let’s understand the different elements in the Xpath expression syntax – tag, attribute and attribute values using an example. Consider the below image of the Google webpage with Firebug inspecting the Search-bar div.
+•	‘/’ or ‘//’ – The single slash and double slash are used to create absolute and relative XPaths(explained later in this tutorial). Single slash is used to start the selection from root node. Whereas, the double slash is used to fetch the current node matching the selection. For now, we will be using ‘//’ here.
+•	Tag – Tags in HTML begin with ‘<‘ and end with ‘>’. These are used to enclose different elements and provide information about the processing of the elements. In the above image, ‘div’ and ‘input’ are tags.
+•	Attribute – Attributes define the properties that the HTML elements hold. In the above image, id, classes, and dir are the attributes of the outer div.
+•	AttrbuteValue – AttributeValues as the name suggest, are the values of the attributes e.g. ‘sb_ifc0’ is the attribute value of ‘id’.
+
+Using the XPath syntax displayed above, we can create multiple XPath expressions for the google searchbar-div given in the image 
+like- //div[@id=’sb_ifc0′], //div[@class=’sbib_b’] or //div[@dir=’ltr’]. Any of these expressions can be used to fetch the desired element as long as the attributes chosen are unique.
+What are different types of xPath?
+There are two kinds of XPath expressions-
+1.	Absolute XPath – The XPath expressions created using absolute XPaths begins the selection from the root node. These expressions either begin with the ‘/’ or the root node and traverse the whole DOM to reach the element.
+2.	Relative XPath – The relative XPath expressions are a lot more compact and use forward double slashes ‘//’. These XPaths can select the elements at any location that matches the selection criteria and doesn’t necessarily begin with the root node.
+
+So, which one of the two is better?- The relative XPaths are considered better because these expressions are easier to read and create; and also more robust. The problem with absolute XPaths is, even a slight change in the DOM from the path of the root node to the desired element can make the XPath invalid.
+Finding Dynamic Elements using xPaths
+Many times in automation, we either don’t have unique attributes of the elements that uniquely identify them, or the elements are dynamically generated with the attribute’s value not known beforehand.
+
+For cases like these, XPath provides different methods of locating elements like – using the text written over the elements; using element’s index; using partially matching attribute value; by moving to a sibling, child, or parent of an element which can be uniquely identified, etc.
+Using text()
+Using text(), we can locate an element based on the text written over it e.g. XPath for the ‘GoogleSearch’button
+//*[text()=’Google Search’]   (we used ‘*’ here to match any tag with the desired text)
+Sample Script
+
+package xPathLocator;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+public class Text
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");							//Using get method to open the webpage
+		String text=driver.findElement(By.xpath("//a[text()='Forgot your password?']")).getText();	
+//Writing a dynamic xPath locator using text() method inside the xpath()method
+		System.out.println(text);
+		driver.quit();				//Closing the browser
+	}
+}
+
+Using Contains()
+
+The contains(), we can match even the values of the partially matching attributes. This is particularly helpful for locating dynamic values whose some part remains constant e.g. XPath for the outer div in the above image having id as ‘sb_ifc0’ can be located even with partial id-‘sb’ using contains() – //div[contains(@id,’sb’)]
+
+Sample Script
+
+package xPathLocator;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import basicSelenium.Credentials;
+public class Contains implements Credentials
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");							//Using get method to open the webpage
+	driver.findElement(By.xpath("//input[contains(@id,'txtUsername')]")).sendKeys(username);   							
+//Writing a dynamic xPath locator using contains() method inside the xpath()method
+	driver.findElement(By.xpath("//input[contains(@id,'txtPassword')]")).sendKeys(password,Keys.ENTER);
+		driver.quit();				//Closing the browser
+	}
+}
+
+Using starts-with()
+
+Syntax: -  //tag-name[starts-with(@attribute,’value’]
+
+Sample Script
+
+package xPathLocator;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import basicSelenium.Credentials;
+public class StartsWith implements Credentials
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");						/	/Using get method to open the webpage
+	driver.findElement(By.xpath("//input[starts-with(@id,'txtUser')]")).sendKeys(username);  
+//Writing a dynamic xPath locator using starts-with() method inside the xpath() method
+	driver.findElement(By.xpath("//input[starts-with(@id,'txtPass')]")).sendKeys(password,Keys.ENTER);
+		driver.quit();			//Closing the browser
+	}
+}
+
+Using Trio Concept (Tag – Attribute – Value)
+
+Syntax:- //TagName[@Attribute = ‘value’]
+
+Sample Script
+
+package xPathLocator;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import basicSelenium.Credentials;
+public class Trio implements Credentials
+{
+	public static void main(String[] args) 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");							//Using get method to open the webpage
+	driver.findElement(By.xpath("//input[@id='txtUsername']")).sendKeys(username);   
+//Writing a dynamic xPath locator using Trio concept inside the xpath()method
+	driver.findElement(By.xpath("//input[@id='txtPassword']")).sendKeys(password,Keys.ENTER);
+		driver.quit();				//Closing the browser
+	}
+}
+
+9.	Handling Dropdowns
+
+we are going to study the handling of dropdowns in Selenium WebDriver.
+
+Select in Selenium webDriver
+
+The ‘Select’ class in Selenium WebDriver is used for selecting and deselecting the option in a dropdown. The objects of Select type can be initialized by passing the dropdown webElement as parameter to its constructor.
+Syntax: - WebElement testDropDown = driver.findElement(By.id("testingDropdown"));
+Select dropdown = new Select(testDropDown);
+Selecting  options from dropdown
+There are three ways of selecting options from dropdown-
+1.	selectByIndex – To select an option based on its index, beginning with0.
+
+Syantax: - dropdown.selectByIndex(3);
+
+Sample Script
+
+package handlingDropdowns;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+import basicSelenium.Credentials;
+public class Index implements Credentials
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver;	//Creating Driver Object
+		//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");					//Using get method to open the webpage
+driver.findElement(By.id("txtUsername")).sendKeys(username);   
+//Locating webElement "ID"
+driver.findElement(By.id("txtPassword")).sendKeys(password,Keys.ENTER);
+	Actions actions=new Actions(driver);	//Mouse hover actions 
+        	webElement menu=driver.findElement(By.xpath("//b[contains(text(),'Admin')]"));
+        	actions.moveToElement(menu).perform();
+      	WebElement menuOption=driver.findElement(By.xpath("//a[contains(text(),'User Management')]"));
+        actions.moveToElement(menuOption).perform();
+        WebElement subMenuOption=driver.findElement(By.xpath("//a[contains(text(),'Users')]"));
+        subMenuOption.click();
+        WebElement testDropDown = driver.findElement(By.id("searchSystemUser_userType"));
+        Select dropdown = new Select(testDropDown);	//we are selecting an element by the index
+        dropdown.selectByIndex(1);
+        driver.findElement(By.id("searchBtn")).click();
+        Thread.sleep(3000);
+        driver.quit();						//Closing the browser
+	}
+}
+
+2.	selectByValue – To select an option based on its ‘value’ attribute.
+
+Syntax: - dropdown.selectByValue("Database");
+
+Sample Script
+package handlingDropdowns;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+import basicSelenium.Credentials;
+public class Value implements Credentials
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");				//Using get method to open the webpage
+driver.findElement(By.id("txtUsername")).sendKeys(username);   
+//Locating webElement "ID"
+driver.findElement(By.id("txtPassword")).sendKeys(password,Keys.ENTER);
+Actions actions=new Actions(driver);	//Mouse hover actions 
+        WebElement Menu=driver.findElement(By.xpath("//b[contains(text(),'Admin')]"));
+        actions.moveToElement(Menu).perform();
+        WebElement menuOption=driver.findElement(By.xpath("//a[contains(text(),'User Management')]"));
+        actions.moveToElement(menuOption).perform();
+        WebElement subMenuOption=driver.findElement(By.xpath("//a[contains(text(),'Users')]"));
+        subMenuOption.click();
+        WebElement testDropDown = driver.findElement(By.id("searchSystemUser_userType"));
+Select dropdown = new Select(testDropDown);	//we are selecting an element by the value
+        dropdown.selectByValue("2");
+        driver.findElement(By.id("searchBtn")).click();
+        Thread.sleep(3000);
+        driver.quit();	/					/Closing the browser
+	}
+}
+
+3.	selectByVisibleText – To select an option based on the text over the option.
+
+Syntax: -  dropdown.selectByVisibleText("Database Testing");
+
+Sample Script
+package handlingDropdowns;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+import basicSelenium.Credentials;
+public class VisibleText implements Credentials
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");					//Using get method to open the webpage
+	driver.findElement(By.id("txtUsername")).sendKeys(username);  
+ //Locating webElement "ID"
+	driver.findElement(By.id("txtPassword")).sendKeys(passwordKeys.ENTER);
+	Actions actions=new Actions(driver);	//Mouse hover actions 
+        WebElement Menu=driver.findElement(By.xpath("//b[contains(text(),'Admin')]"));
+        actions.moveToElement(Menu).perform();
+        WebElement menuOption=driver.findElement(By.xpath("//a[contains(text(),'User Management')]"));
+        actions.moveToElement(menuOption).perform();
+        WebElement subMenuOption=driver.findElement(By.xpath("//a[contains(text(),'Users')]"));
+        subMenuOption.click();
+        WebElement testDropDown = sriver.findElement(By.id("searchSystemUser_userType"));
+        Select dropdown = new Select(testDropDown);	//we are selecting an element by the visible text
+        dropdown.selectByVisibleText("ESS");
+        driver.findElement(By.id("searchBtn")).click();
+        Thread.sleep(3000);
+        driver.quit();	//Closing the browser
+	}
+}
+
+Different utility methods in the select class
+
+•	deselectAll() – To deselect all the selected options.
+•	deselectByIndex(int index) – To deselect the option based on its index.
+•	deselectByValue(String valueAttribute) – To deselect the option its ‘value’ attribute.
+•	deselectByVisibleText(String text) – To deselect the option based on the text over the option.
+•	getOptions() – To return list of all the options(List<WebElement>).
+•	getAllSelectedOptions() – To return the list of all the selected options(List<WebElement>).
+•	getFirstSelectedOption() – To return the selected option or the first selected option in case of dropdowns allowing multi-select.
+•	isMultiple() – To return a Boolean value, checking if the dropdown allows multiple option select or not.
+
+
+10.	Right Click in Selenium
+
+Quite often during automation we need to right click or context click an element. Later, this action is followed up by pressing the UP/DOWN arrow keys and ENTER key to select the desired context menu element.
+
+For right clicking an element in Selenium, we make use of the Actions class. The Actions class provided by Selenium Webdriver is used to generate complex user gestures including right click, double click, drag and drop etc.
+
+Code snippet to Right click an element
+
+Actions action = new Actions(driver);
+WebElement element = driver.findElement(By.id("elementId"));
+action.contextClick(element).perform();
+Here, we are instantiating an object of Actions class. After that, we pass the WebElement to be right clicked as parameter to the contestClick() method present in the Actions class. Then, we call the perform() method to perform the generated action.
+Sample Script
+package rightClick;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.interactions.Actions;
+public class RightClick 
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");						//Using get method to open the webpage
+		Actions action = new Actions(driver);
+		WebElement searchBox=driver.findElement(By.id("txtUsername"));
+		action.contextClick(searchBox).perform();	
+//Here, we are going to perform right click operation on a particular element by using contextClick() method   
+		Thread.sleep(3000);
+		driver.quit();
+	}
+}
+
+11.	Double Click in Selenium
+
+we will learn to double click an element using Selenium Webdriver with Java. For double clicking an element in Selenium we make use of the Actions class. The Actions class provided by Selenium Webdriver is used to generate complex user gestures including right click, double click, drag and drop etc.
+
+Code Snippet to double click an element
+
+Actions action = new Actions(driver);
+WebElement element = driver.findElement(By.id("elementId"));
+action.doubleClick(element).perform();
+Here, we are instantiating an object of Actions class. After that, we pass the WebElement to be double clicked as parameter to the doubleClick() method present in the Actions class. Then, we call the perform() method to perform the generated action.
+Sample Script
+package doubleClick;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.interactions.Actions;
+import basicSelenium.Credentials;
+public class DoubleClick implements Credentials
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");						//Using get method to open the webpage
+		driver.findElement(By.id("txtUsername")).sendKeys(username); 									 //Locating webElement "ID"
+		driver.findElement(By.id("txtPassword")).sendKeys(password,Keys.ENTER);
+		Actions action = new Actions(driver);
+		WebElement element=driver.findElement(By.id("welcome"));
+		action.doubleClick(element).perform();   
+//Here, we are going to perform double click operation on a particular element by using doubleClick() method
+		Thread.sleep(3000);
+		driver.quit();
+	}
+}
+12.	MouseOver Actions in Selenium
+we will learn to automate the mouseover over an element using Selenium Webdriver with Java. For performing the mouse hover over an element in Selenium, we make use of the Actions class. The Actions class provided by Selenium Webdriver is used to generate complex user gestures including mouseover, right-click, double click, drag, and drop, etc.
+Code Snippet to double click an element
+
+Actions action = new Actions(driver);
+WebElement element = driver.findElement(By.id("elementId"));
+action.moveToElement(element).perform();
+Here, we are instantiating an object of Actions class. After that, we pass the WebElement to be mouse hovered as a parameter to the moveToElement() method present in the Actions class. Then, we will call the perform() method to perform the generated action.
+Sample Script
+package mouseOver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.interactions.Actions;
+import basicSelenium.Credentials;
+public class MouseOverActions implements Credentials
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");						//Using get method to open the webpage
+		driver.findElement(By.id("txtUsername")).sendKeys(username);  									 //Locating webElement "ID"
+		driver.findElement(By.id("txtPassword")).sendKeys(password,Keys.ENTER);
+Actions actions=new Actions(driver);										//Here, we are going to perform mouse hover actions 
+        WebElement Menu=driver.findElement(By.xpath("//b[contains(text(),'Admin')]"));
+        actions.moveToElement(Menu).perform();
+        WebElement menuOption=driver.findElement(By.xpath("//a[contains(text(),'User Management')]"));
+        actions.moveToElement(menuOption).perform();
+        WebElement subMenuOption=driver.findElement(By.xpath("//a[contains(text(),'Users')]"));
+        subMenuOption.click();
+		Thread.sleep(3000);
+		driver.quit();
+	}
+}
+13.	Drag and Drop in Selenium
+Drag and Drop is one of the common scenarios in automation. In this tutorial, we are going to study the handling of drag and drop events in Selenium WebDriver using the Actions class.
+Drag and Drop actions in Selenium webDriver
+For performing complex user gestures like drag and drop, we have a Actions class in Selenium WebDriver. Using the Actions class, we first build a sequence of composite events and then perform it using Action (an interface which represents a single user-interaction). The different methods of Actions class we will be using here are-
+•	clickAndHold(WebElement element) – Clicks a web element at the middle(without releasing).
+•	moveToElement(WebElement element) – Moves the mouse pointer to the middle of the web element without clicking.
+•	release(WebElement element) – Releases the left click (which is in the pressed state).
+•	build() – Generates a composite action.
+
+Sample Script
+
+package dragAndDrop;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class DragAndDrop 
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+		driver.get("http://demo.guru99.com/test/drag_drop.html");					
+        WebElement From=driver.findElement(By.xpath("//*[@id='credit2']/a"));								//Element which needs to drag.  
+        WebElement To=driver.findElement(By.xpath("//*[@id='bank']/li"));									//Element on which need to drop.				  Actions act=new Actions(driver);	//Using Action class for drag and drop.			  act.dragAndDrop(From, To).build().perform();	//Dragged and dropped.		
+        Thread.sleep(3000);
+        driver.quit();
+	}
+}
+
+14.	Handling Alerts
+
+An Alert in Selenium is a small message box which appears on screen to give the user some information or notification. It notifies the user with some specific information or error, asks for permission to perform certain tasks and it also provides warning messages as well.
+
+Sample Script
+
+package alerts;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class Alerts 
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+		driver.get("http://demo.guru99.com/test/delete_customer.php");										// Alert Message handling		
+        	driver.findElement(By.name("cusid")).sendKeys("53920");					
+        driver.findElement(By.name("submit")).submit();			
+        Alert alert = driver.switchTo().alert();	// Switching to Alert		
+        String alertMessage= driver.switchTo().alert().getText();	// Capturing alert message.		  System.out.println(alertMessage);		// Displaying alert message			
+        Thread.sleep(5000);
+        alert.accept();		// Accepting alert	
+        driver.quit();
+	}
+}
+
+15.	Scrolling a Webpage
+Scrolling a webpage is required in the automation when the application requires scrolling down or up to display additional information e.g. most of the e-commerce sites display only 10-20 products at a time and then load more products as the user scrolls down.
+n this script, first, we will launch filpkart.com, write a search term and then scroll down to fetch more results corresponding to that search term. Automating page scrolling will make use of “scrollBy” method of java script. For executing the java script method we will use JavaScript executor. The scrollBy method takes two parameters one each for horizontal and vertical scroll in terms of pixels.
+Syntax:- JavascriptExecutor js = (JavascriptExecutor)driver;
+	js.executeScript("scrollBy(0, 2500)");
+Sample Script: -
+package scrolling;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+public class Scrolling 
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");							//Using get method to open the webpage
+		Thread.sleep(3000);
+		JavascriptExecutor js = (JavascriptExecutor)driver;	//To Scroll a webpage
+		js.executeScript("scrollBy(0, 2500)"); 
+		Thread.sleep(3000);
+		driver.quit();
+	}
+}
+
+16.	Refresh a Webpage
+There are multiple ways of refreshing a page in Selenium Webdriver. In this post, we will present all these ways and also specify which one is the best.
+1. Using driver.navigate() command
+Selenium Webdriver provides inherent support for refreshing a webpage using its driver.navigate() command. This is by far the most preferred and widely used way of refreshing a webpage.
+
+Syntax:- driver.navigate().refresh();
+2. Opening current URL using driver.getCurrentUrl() with driver.get() command
+
+Syntax: - driver.get(driver.getCurrentUrl());
+
+3. Opening current URL using driver.getCurrentUrl() with driver.navigate() command
+
+Syntax: - driver.navigate().to(driver.getCurrentUrl());
+
+4. Pressing F5 key on any textbox using sendKeys command
+
+Syntax: - driver.findElement(By textboxLocator).sendKeys(Keys.F5);
+
+5. Passing ascii value of F5 key i.e. “\uE035” using sendKeys command
+
+Syntax: - driver.findElement(By textboxLocator).sendKeys("\uE035");
+
+Sample Script
+
+package refresh;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import basicSelenium.Credentials;
+public class Refresh implements Credentials
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");							//Using get method to open the webpage
+		driver.findElement(By.id("txtUsername")).sendKeys(username);  
+ //Locating webElement "ID"
+		driver.findElement(By.id("txtPassword")).sendKeys(password,Keys.ENTER);
+		Thread.sleep(3000);
+driver.navigate().refresh();	//To refresh a webpage. Similarly, you can replace the code with different scenarios as mentioned in the above
+		Thread.sleep(3000);
+		driver.quit();	//Closing the browser
+	}
+}
+
+17.	Window Handlings
+
+When we launch a browser using Selenium WebDriver, by default it is not in its maximized state. In this post, we will see how to maximize and minimize a browser during automation.
+
+Maximize the Browser
+During automation, it’s one of the best practices to maximize the browser in the initial phases (or in the @BeforeTest method in case you are using TestNG as the testing framework). The following command can be used to maximize the browser window.
+Syntax: - driver.manage().window().maximize();
+Sample Script
+package windowHandlings;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+public class Maximize 
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");							//Using get method to open the webpage
+		Thread.sleep(3000);
+		driver.manage().window().maximize();	//To Maximize the browser window
+		Thread.sleep(3000);
+		driver.quit();
+	}
+}
+
+Minimize the Browser
+
+Unfortunately, Selenium WebDriver doesn’t provide any native support for minimizing a browser. If we don’t want to see the browser in action during automation than we can use Headless browsers like HTMLUnitDriver, PhantomJS, etc. But in case we specifically want to minimize a browser during automation than we can make use of the below statement. The following code snippet will position the browser to an area that is not within the viewable section of the machine we are working on. Thus making it appear as if the browser window got minimized.
+Syntax: - driver.manage().window().setPosition(new Point(0, -1000));
+Sample Script
+package windowHandlings;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+public class Minimize 
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");							//Using get method to open the webpage
+		Thread.sleep(3000);
+		driver.manage().window().setPosition(new Point(0, -1000));										//To minimize the browser window
+		Thread.sleep(3000);
+		driver.quit();
+	}
+}
+
+Resize a Browser window
+At times during automation, we may be required to test an application with some specific browser window dimensions. In this post, we will be studying how to resize a browser to an exact dimension.
+In order to achieve this, we will use the setSize() method which takes the Dimension object as input. The Dimension object has width and height integer fields. Hence, we can set the width and height of the browser by calling the setSize method with the required dimensions of the browser window.
+Code snippet to Resize a Browser window
+During automation, it’s one of the best practices to maximize the browser in the initial phases (or in the BeforeTest method in case you are using TestNG as the testing framework). Selenium provides a direct command to maximize the browser window. The following command is used to maximize the browser window.
+Syntax:- int width = 600;
+	int height = 400;
+	Dimension dimension = new Dimension(width, height);
+	driver.manage().window().setSize(dimension);
+Sample Script
+package windowHandlings;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+public class Resize 
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");							//Using get method to open the webpage
+		Thread.sleep(3000);
+		int width = 600;
+		int height = 400;
+		Dimension dimension = new Dimension(width, height);
+		driver.manage().window().setSize(dimension);
+		Thread.sleep(3000);
+		driver.quit();
+	}
+}
+
+18.	Navigations in Selenium
+During automation, we are at times required to move back to the previous page or move forward to the next page in browser history. In this post, we will learn to perform these operations using driver.navigate command.
+Navigate back in browser history
+Syntax: - driver.navigate().back();
+Sample script
+package navigations;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import basicSelenium.Credentials;
+public class Backward implements Credentials
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver;		//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+		driver=new EdgeDriver();		//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");					//Using get method to open the webpage
+		driver.findElement(By.id("txtUsername")).sendKeys(username);  					//Locating webElement "ID"
+	driver.findElement(By.id("txtPassword")).sendKeys(password,Keys.ENTER);
+		Thread.sleep(3000);
+		driver.navigate().back();	//To navigate back to the browser history
+		Thread.sleep(3000);
+		driver.quit();	//Closing the browser
+	}
+}
+Navigate forward in browser history
+Syntax: - driver.navigate().forward();
+Sample Script
+package navigations;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import basicSelenium.Credentials;
+public class Forward implements Credentials
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");							//Using get method to open the webpage
+		driver.findElement(By.id("txtUsername")).sendKeys(username);  										 //Locating webElement "ID"
+		driver.findElement(By.id("txtPassword")).sendKeys(password,Keys.ENTER);
+		Thread.sleep(3000);
+		driver.navigate().back();
+		Thread.sleep(3000);
+		driver.navigate().forward();		//To navigate forward in browser history
+		Thread.sleep(3000);
+		driver.quit();	//Closing the browser
+	}
+}
+19.	Keyboard interactions
+In our beginner’s tutorials, we have seen the sendKeys() method which simulates the keyboard typing action on a textbox or input type element. But this method is not sufficient for handling complex keyboard actions. For this, Selenium has an Actions class which provides different methods for Keyboard interactions. In this tutorial, we will be studying the three actions for handling keyboard action – keyDown(), keyUp() and sendKeys() along with their overloaded method implementations.
+Action class method for keyboard interactions
+1.	keyDown(Keys modifierKey)-
+The keyDown(Keys modifierKey) method takes the modifier Keys as parameter (Shift, Alt and Control Keys – that modifies the purpose of other keys, hence the name). It is used to simulate the action of pressing a modifier key, without releasing. The expected values for the keyDown() method are – Keys.SHIFT, Keys.ALT and Keys.CONTROL only, passing key other than these results in IllegalArgumentException.
+2.	keyDown(WebElement element, Keys modifierKey)-
+This another implementation of keyDown() method in which the modifier key press action is performed on a WebElement.
+3.	keyUp(Keys modifierKey)-
+The keyUp() method is used to simulate the modifier key-up or key-release action. This method follows a preceeding key press action.
+4.	keyUp(WebElement element, Keys modifierKey)-
+This implementation of keyUp() method performs the key-release action on a web element.
+5.	sendKeys(CharSequence KeysToSend)-
+The sendKeys(CharSequence KeysToSend) method is used to send a sequence of keys to a currently focussed web element. Here, we need to note that it is different from the webElement.sendKeys() method. The Actions sendKeys(CharSequence KeysToSend) is particularly helpful when dealing with modifier keys as it doesn’t release those keys when passed(resulting in correct behaviour) unlike the webElement.sendKeys() method.
+6.	sendKeys(WebElement element, CharSequence KeysToSend)-
+This implementation of sendKeys() method is used to send a sequence of keys to a web element.
+
+Sample script
+
+package keyboard;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.seleniu0m.edge.EdgeDriver;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
+import basicSelenium.Credentials;
+public class Keyboard implements Credentials
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver;	//Creating Driver Object
+					//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");							//Using get method to open the webpage
+		driver.findElement(By.id("txtUsername")).sendKeys(username);  										 //Locating webElement "ID"
+		driver.findElement(By.id("txtPassword")).sendKeys(password,Keys.ENTER);
+		Thread.sleep(3000);
+		Actions actions=new Actions(driver);
+        WebElement Menu=driver.findElement(By.xpath("//b[contains(text(),'Admin')]"));
+        actions.moveToElement(Menu).perform();
+        WebElement menuOption=driver.findElement(By.xpath("//a[contains(text(),'User Management')]"));
+        actions.moveToElement(menuOption).perform();
+        WebElement subMenuOption=driver.findElement(By.xpath("//a[contains(text(),'Users')]"));
+        subMenuOption.click();
+        WebElement textbox=driver.findElement(By.id("searchSystemUser_userName"));
+        Action typeInCAPS = actions.keyDown(textbox, Keys.SHIFT).sendKeys(textbox, "RaM").keyUp(textbox, Keys.SHIFT).build();										//we are trying to perform keyboard interactions in textbox in webpage
+		Thread.sleep(3000);
+       		typeInCAPS.perform();
+		Thread.sleep(3000);
+       		driver.quit();				//Closing the browser
+	}
+}
+20.	Mouse Interactions
+we will be studying the advanced mouse interactions using Actions class. Using these methods, we can perform mouse operations like right-click, double click, mouse hover, click and hold, etc.
+Actions class method for mouse interactions
+1.	click()-
+This method is used to click at the current mouse pointer position. It is particularly useful when used with other mouse and keyboard events, generating composite actions.
+2.	click(WebElement webElement)-
+This method is used to click at the middle of a web element passed as parameter to the click() method.
+3.	clickAndHold()-
+The clickAndHold() method is used to perform the click method without releasing the mouse button.
+4.	clickAndHold(WebElement onElement)-
+This method performs the click method without releasing the mouse button over a web element.
+5.	contextClick()-
+This method is used to perform the right click operation(context-click) at the current mouse position.
+6.	contextClick(WebElement onElement)-
+This method performs the right click operation at a particular web element.
+7.	doubleClick()-
+As the name suggest, this method performs double click operation at a current mouse position.
+8.	doubleClick(WebElement onElement)-
+Performs the double click operation at a particular web element.
+9.	dragAndDrop(WebElement fromElement, WebElement toElement)-
+This is a utility method to perform the dragAndDrop operation directly wherein, we can pass the source element and the target element as parameter.
+10.	dragAndDropBy(WebElement fromElement, int xOffset, int yOffset)-
+This method is a variation of dragAndDrop(fromElement, toElement) in which instead of passing the target element as parameter, we pass the x and y offsets. The method clicks the source web element and then releases at the x and y offsets.
+11.	moveByOffset(int xOffset, int yOffset)-
+This method is used to move the mouse pointer to a particular position based on the x and y offsets passed as parameter.
+12.	moveToElement(WebElement toElement)-
+This method is used to move the mouse pointer to a web element passed as parameter.
+13.	moveToElement(WebElement toElement, int xOffset, int yOffset)-
+This method moves the mouse pointer by the given x and y offsets from the top-left corner of the specified web element.
+14.	release()-
+This method releases the pressed left mouse button at the current mouse pointer position.
+15.	release(WebElement onElement)-
+This method release the pressed left mouse button at a particular web element.
+
+Sample script
+package rightClick;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.interactions.Actions;
+public class RightClick 
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver;		//Creating Driver Object
+						//Setting the EdgeDriver property
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+driver=new EdgeDriver();	//Creating an instance of edge driver and launching the edge browser
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");							//Using get method to open the webpage
+		Actions action = new Actions(driver);
+		WebElement searchBox=driver.findElement(By.id("txtUsername"));
+action.contextClick(searchBox).perform();												//Here, we are going to perform right click operation on a particular element by using contextClick() method   
+		Thread.sleep(3000);
+		driver.quit();
+	}
+}
+21.	Exceptions in Selenium
+1.	NoSuchElementException
+Reason – In case no element could be located from the locator provided.
+Resolution – Check the correctness of the locators for the elements and make sure that the element is present when interacted with them.
+2.	ElementNotVisisbleException
+Reason – In case the element is present in the dom but is not visible.
+Resolution – Make sure that the element is in the visible area when interacted with. Some common methods to achieve this are – maximizing the browser window, scrolling to the element.
+3.	NoAlertPresentException
+Reason – In case we try to switch to an alert but the targetted alert is not present.
+Resolution – Make sure that alert is present when it is interacted with.
+4.	NoSuchFrameException
+Reason – In case we try to switch to a frame but the targetted frame is not present.
+Resolution – Check the frame locators and make sure the frame is present on the webpage.
+5.	NoSuchWindowException
+Reason – In case we try to switch to a window but the targetted window is not present.
+Resolution – Get the list of window handles using driver.getWindowHandles() and switch to one of the handles present at that particular time.
+6.	UnexpectedAlertPresentException
+Reason – In case an unexpected alert blocks the normal interaction of the driver.
+Resolution – Accept or dismiss the alert to continue interacting with the dom.
+7.	TimeoutException
+Reason – In case a command execution gets timeout.
+Resolution – This may be a valid exception unless we have set very low timeout values in implicit and explicit waits.
+8.	InvalidElementStateException
+Reason – In case the state of an element is not appropriate for the desired action.
+Resolution – Make sure that the element is available to perform the desired operation by waiting for the desired ExpectedCondition in explicit wait.
+9.	NoSuchAttributeException
+Reason – In case we are trying to fetch an attribute’s value but the attribute is not correct.
+Resolution – Just make sure the attribute we want to fetch from an element is actually present in the element or not.
+10.	WebDriverException
+Reason – In case there is some issue with driver instance preventing it from getting launched.
+Resolution – Check the driver’s instantiation and the dependencies required to instantiate the driver object.
+22.	Assertions in Selenium
+Assertions are used for validating a test case and helps us understand if a test case has passed or failed. The assertion is considered to be met if the actual result of an application matches with that of the expected result.
+While automating web applications using Selenium, we need to validate our tests to verify if they are working as expected or not (that is, if a test case result is pass/fails).
+
+A test case is considered to be passed only if all the assertions have been met. Assertions in Selenium can be handled by pre-defined methods of Junit and TestNG frameworks, which will be explained in detail.
+
+Assertions are used to perform various kinds of validations in the test cases, which in turn helps us to decide whether the test case has passed or failed. We consider a test as successful if it runs without any exception.
+
+Types of Assertions in Selenium
+
+There are two types of assertions in Selenium and the categorization depends on how the assertion behaves after a condition is pass or fail.
+
+•	Hard Assertions
+•	Soft Assertions
+
+1.	Hard Assertions or Simply Assertions
+
+A hard assertion does not continue with execution until the assertion condition is met.
+Hard assertions usually throw an Assertion Error whenever an assertion condition has not been met. The test case will be immediately marked as Failed when a hard assertion condition fails.
+A scenario to use this kind of assertion is that, when you want to verify if you have logged in correctly and fail the test if you haven’t made a successful login, as there is no point in proceeding further if the pre-condition(login) itself fails.
+
+Consider a test case to assert the title of a webpage
+Sample Script
+
+package assertions;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+public class HardAssertions 
+{
+	@Test
+	public void titleTestAndTexttest()
+	{
+		String expectedTitle="OrangeHRM";
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+		WebDriver driver=new EdgeDriver();
+		driver.manage().window().maximize();
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");
+		System.out.println("Title verification");
+		String actualTitle=driver.getTitle();
+		Assert.assertEquals(actualTitle, expectedTitle,"Title Verification is failed");
+		System.out.println("Browser closed");
+		driver.close();
+	}
+}
+
+
+
+Console
+
+Title verification
+Browser closed
+PASSED: titleTestAndTexttest (Test name)
+
+The same test case when failed will throw an exception and halt the execution at that instance.
+
+Now, let us change the Expected Title to the wrong one.
+
+Sample script
+
+package assertions;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+public class HardAssertions 
+{
+	@Test
+	public void titleTestAndTexttest()
+	{
+		String expectedTitle="OrangeHRMs";
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+		WebDriver driver=new EdgeDriver();
+		driver.manage().window().maximize();
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");
+		System.out.println("Title verification");
+		String actualTitle=driver.getTitle();
+		Assert.assertEquals(actualTitle, expectedTitle,"Title Verification is failed");
+		System.out.println("Browser closed");
+		driver.close();
+	}
+}
+
+Console
+
+Title verification
+FAILED: titleTestAndTexttest
+java.lang.AssertionError: Title Verification is failed expected [OrangeHRMs] but found [OrangeHRM]
+
+
+2.	Soft Assertions in Selenium
+
+A soft assertion continues with the next step of the test execution even if the assertion condition is not met.
+Soft Assertions are the type of assertions that do not throw an exception automatically when an assertion fails unless it is asked for. This is useful if you are doing multiple validations in a form, out of which only a few validations directly have an impact on deciding the test case status.
+Here, we use a class called SoftAssert and the method assertAll() is called to throw all exceptions caught during execution. When softAssert is used, it performs assertion and if an exception is found, its not thrown immediately, rather it continues until we call the method assertAll() to throw all exceptions caught.
+It is wise to use different objects of ‘SoftAssert’ class for each test case.
+Consider the test case to assert the title of the page
+In the below example, one object of ‘SoftAssert’ class are created to be used in test case
+Sample script
+
+package assertions;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+public class SoftAssertions 
+{
+	@Test
+	public void titleTestAndTexttest()
+	{
+		SoftAssert softAssert=new SoftAssert();
+		String expectedTitle="OrangeHRM";
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+		WebDriver driver=new EdgeDriver();
+		driver.manage().window().maximize();
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");
+		System.out.println("Title verification");
+		String actualTitle=driver.getTitle();
+		softAssert.assertEquals(actualTitle, expectedTitle,"Title Verification is failed");
+		System.out.println("Browser closed");
+		driver.close();
+		softAssert.assertAll();
+	}
+}
+.
+Console
+
+Title verification
+Browser closed
+PASSED: titleTestAndTexttest (Test name)
+
+The same test case when failed will throw an exception and halt the execution at that instance.
+
+Now, let us change the Expected Title to the wrong one.
+
+Sample script
+
+package assertions;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+public class SoftAssertions 
+{
+	@Test
+	public void titleTestAndTexttest()
+	{
+		SoftAssert softAssert=new SoftAssert();
+		String expectedTitle="OrangeHRMs";
+	System.setProperty("webdriver.edge.driver","C:\\Users\\maddula_aj\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+		WebDriver driver=new EdgeDriver();
+		driver.manage().window().maximize();
+	driver.get("http://orangehrm.qedgetech.com/symfony/web/index.php/auth/validateCredentials");
+		System.out.println("Title verification");
+		String actualTitle=driver.getTitle();
+		softAssert.assertEquals(actualTitle, expectedTitle,"Title Verification is failed");
+		System.out.println("Browser closed");
+		driver.close();
+		softAssert.assertAll();
+	}
+}
+
+Console
+
+Title verification
+Browser closed
+FAILED: titleTestAndTexttest
+java.lang.AssertionError: The following asserts failed:
+	Title Verification is failed expected [OrangeHRMs] but found [OrangeHRM]
+
+From the console, we can understand that even though the assertion was a failure in the test case (verifyTitle), the execution continued to the next line wherein the statement – ‘Browser closed’ was printed and only after softAssert was called, the exception was thrown.
+
+When to use Hard assertion and Soft assertion?
+If you need to execute all the steps of a test case to be executed even after an assertion fails, and you also want to report assertion exception, then opt for using Soft Assertions. Using Soft Assertions in your test scripts is a good practice and an effective way of handling your test execution
+If you want your test case execution to proceed only after an assertion is passed (For Example, To Verify valid login and only then execute the other steps), then use Hard Assertions.
+
+
+
+
